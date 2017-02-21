@@ -275,9 +275,10 @@ class ManoRift():
                     nsopdata=self.get_ns_opdata(ns['id'])
                     scaling_records=nsopdata['nsr:nsr']['scaling-group-record']
                     for record in scaling_records:
-                        instances=record['instance'] 
-                        for inst in instances:
-                            table.add_row([inst['instance-id'],inst['op-status'],time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(inst['create-time'])),inst['vnfrs']])
+                        if 'instance' in record:
+                            instances=record['instance'] 
+                            for inst in instances:
+                                table.add_row([inst['instance-id'],inst['op-status'],time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(inst['create-time'])),inst['vnfrs']])
         table.align='l'
         print(table)
 
