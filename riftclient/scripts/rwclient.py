@@ -34,8 +34,21 @@ def vnfd_list(ctx):
 def vnf_list(ctx):
     resp=ctx.obj.list_vnfr()
     table=PrettyTable(['VNFD Name','Id','Operational Status','Config Status','Mgmt interface','NSR Id'])
-    for vnfr in resp['vnfr:vnfr']:
-        table.add_row([vnfr['name'],vnfr['id'],vnfr['operational-status'],vnfr['config-status'],vnfr['mgmt-interface']['ip-address'],vnfr['nsr-id-ref']])
+    if resp is not None:
+        for vnfr in resp['vnfr:vnfr']:
+            table.add_row([vnfr['name'],vnfr['id'],vnfr['operational-status'],vnfr['config-status'],vnfr['mgmt-interface']['ip-address'],vnfr['nsr-id-ref']])
+        table.align='l'
+    print(table)
+
+@cli.command(name='vnf-monitoring-show')
+@click.argument('vnf_name')
+@click.pass_context
+def vnf_monitoring_show(ctx,vnf_name):
+    resp=ctx.obj.get_vnf_monitoring(vnf_name)
+    table=PrettyTable(['Vnf Name','Monitoring Name','value','units'])
+    if resp is not None:
+        for monitor in resp:
+            table.add_row([vnf_name,monitor['name'],monitor['value-integer'],monitor['units']])
     table.align='l'
     print(table)
 

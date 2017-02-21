@@ -81,8 +81,24 @@ class ManoRift():
         curl_cmd.setopt(pycurl.WRITEFUNCTION, data.write)
         curl_cmd.perform() 
         curl_cmd.close()
-        resp = json.loads(data.getvalue())
-        return resp
+        if data.getvalue():
+          resp = json.loads(data.getvalue())
+          return resp
+        return None 
+
+    def get_vnf(self,vnf_name):
+        vnfs=self.get_vnfr_catalog()
+        for vnf in vnfs['vnfr:vnfr']:
+            if vnf_name == vnf['name']:
+                return vnf
+        return None
+
+    def get_vnf_monitoring(self,vnf_name):
+        vnf=self.get_vnf(vnf_name)
+        if vnf is not None:
+            if 'monitoring-param' is not None:
+                return vnf['monitoring-param'] 
+        #/v1/api/operational/vnfr-catalog/vnfr/bb7cf646-eb73-4319-925a-6a210046cf33
 
     def list_key_pair(self):
         data = BytesIO()
