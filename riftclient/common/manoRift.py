@@ -13,7 +13,7 @@ class ManoRift():
         self._host=host
         self._upload_port=upload_port
         self._url = 'https://{}/'.format(self._host)
-        self._upload_url = 'https://{}:{}/'.format(self._host,self._upload_port)
+        self._upload_url = 'https://{}:{}/'.format(self._host.split(':')[0],self._upload_port)
 
     def get_curl_cmd(self,url):
         curl_cmd = pycurl.Curl()
