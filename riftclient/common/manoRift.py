@@ -96,9 +96,25 @@ class ManoRift():
     def get_vnf_monitoring(self,vnf_name):
         vnf=self.get_vnf(vnf_name)
         if vnf is not None:
-            if 'monitoring-param' is not None:
+            if 'monitoring-param' in vnf:
                 return vnf['monitoring-param'] 
-        #/v1/api/operational/vnfr-catalog/vnfr/bb7cf646-eb73-4319-925a-6a210046cf33
+        return None
+
+    def get_ns_monitoring(self,ns_name):
+        ns=self.get_ns(ns_name)
+        if ns is None:
+            raise Exception('cannot find ns {}'.format(ns_name)) 
+
+        vnfs=self.get_vnfr_catalog()
+        if vnfs is None:
+            return None
+        mon_list={}
+        for vnf in vnfs['vnfr:vnfr']:
+            if ns['id'] == vnf['nsr-id-ref']:
+                if 'monitoring-param' in vnf:
+                    mon_list[vnf['name']] = vnf['monitoring-param']
+
+        return mon_list 
 
     def list_key_pair(self):
         data = BytesIO()
@@ -176,11 +192,9 @@ class ManoRift():
 
         if vim_network_prefix is not None:
             for index,vld in enumerate(nsr['nsd']['vld']):
-                pprint.pprint(vld)
                 network_name = vld['name']
                 nsr['nsd']['vld'][index]['vim-network-name'] = '{}-{}'.format(vim_network_prefix,network_name)
 
-        pprint.pprint(nsr)
         postdata['nsr'].append(nsr)
         jsondata=json.dumps(postdata)
         curl_cmd.setopt(pycurl.POSTFIELDS,jsondata)

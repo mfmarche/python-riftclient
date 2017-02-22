@@ -52,6 +52,19 @@ def vnf_monitoring_show(ctx,vnf_name):
     table.align='l'
     print(table)
 
+@cli.command(name='ns-monitoring-show')
+@click.argument('ns_name')
+@click.pass_context
+def ns_monitoring_show(ctx,ns_name):
+    resp=ctx.obj.get_ns_monitoring(ns_name)
+    table=PrettyTable(['Vnf Name','Monitoring Name','value','units'])
+    if resp is not None:
+        for key,val in resp.items():
+            for monitor in val:
+                table.add_row([key,monitor['name'],monitor['value-integer'],monitor['units']])
+    table.align='l'
+    print(table)
+
 @cli.command(name='ns-create')
 @click.argument('nsd_name')
 @click.argument('ns_name')
