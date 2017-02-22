@@ -9,9 +9,12 @@ class SvMano(object):
         self._hostname=hostname
 
 @click.group()
-@click.option('--hostname',envvar='RWCLIENT_RIFT_HOSTNAME',help='hostname of server.  Also can set RWCLIENT_RIFT_HOSTNAME in environment')
+@click.option('--hostname',default=None,envvar='RWCLIENT_RIFT_HOSTNAME',help='hostname of server.  Also can set RWCLIENT_RIFT_HOSTNAME in environment')
 @click.pass_context
 def cli(ctx,hostname):
+    if hostname is None:
+        print("either hostname option or RWCLIENT_RIFT_HOSTNAME environment variable needs to be specified") 
+        exit(1)
     ctx.obj=manoRift.ManoRift(hostname)
 
 @cli.command(name='ns-list')

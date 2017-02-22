@@ -8,6 +8,9 @@ import time
 
 class ManoRift():
     def __init__(self,host,upload_port=4567):
+        if host is None:
+            raise Exception('missing host specifier')
+         
         self._user='admin'
         self._password='admin'
         self._host=host
@@ -41,7 +44,7 @@ class ManoRift():
         curl_cmd.setopt(pycurl.WRITEFUNCTION, data.write)
         curl_cmd.perform() 
         curl_cmd.close()
-        resp = json.loads(data.getvalue())
+        resp = json.loads(data.getvalue().decode())
         return resp
 
     def get_ns_catalog(self):
@@ -51,7 +54,7 @@ class ManoRift():
         curl_cmd.setopt(pycurl.WRITEFUNCTION, data.write)
         curl_cmd.perform() 
         curl_cmd.close()
-        resp = json.loads(data.getvalue())
+        resp = json.loads(data.getvalue().decode())
         return resp
 
     def get_ns_instance_list(self):
@@ -61,7 +64,7 @@ class ManoRift():
         curl_cmd.setopt(pycurl.WRITEFUNCTION, data.write)
         curl_cmd.perform() 
         curl_cmd.close()
-        resp = json.loads(data.getvalue())
+        resp = json.loads(data.getvalue().decode())
         return resp['nsr:ns-instance-config']
 
     def get_vnf_catalog(self):
@@ -71,7 +74,7 @@ class ManoRift():
         curl_cmd.setopt(pycurl.WRITEFUNCTION, data.write)
         curl_cmd.perform() 
         curl_cmd.close()
-        resp = json.loads(data.getvalue())
+        resp = json.loads(data.getvalue().decode())
         return resp
 
     def get_vnfr_catalog(self):
@@ -82,7 +85,7 @@ class ManoRift():
         curl_cmd.perform() 
         curl_cmd.close()
         if data.getvalue():
-          resp = json.loads(data.getvalue())
+          resp = json.loads(data.getvalue().decode())
           return resp
         return None 
 
@@ -123,7 +126,7 @@ class ManoRift():
         curl_cmd.setopt(pycurl.WRITEFUNCTION, data.write)
         curl_cmd.perform() 
         curl_cmd.close()
-        resp = json.loads(data.getvalue())
+        resp = json.loads(data.getvalue().decode())
         if 'nsr:key-pair' in resp:
             return resp['nsr:key-pair']
         return list()
@@ -200,7 +203,7 @@ class ManoRift():
         curl_cmd.setopt(pycurl.POSTFIELDS,jsondata)
         curl_cmd.perform() 
         curl_cmd.close()
-        resp = json.loads(data.getvalue())
+        resp = json.loads(data.getvalue().decode())
         pprint.pprint(resp)
 
     def delete_nsd(self,nsd_name):
@@ -213,7 +216,7 @@ class ManoRift():
         curl_cmd.setopt(pycurl.WRITEFUNCTION, data.write)
         curl_cmd.perform() 
         curl_cmd.close()
-        resp = json.loads(data.getvalue())
+        resp = json.loads(data.getvalue().decode())
         pprint.pprint(resp)
 
     def terminate_ns(self,ns_name):
@@ -227,7 +230,7 @@ class ManoRift():
         curl_cmd.setopt(pycurl.WRITEFUNCTION, data.write)
         curl_cmd.perform() 
         curl_cmd.close()
-        resp = json.loads(data.getvalue())
+        resp = json.loads(data.getvalue().decode())
         pprint.pprint(resp)
 
     def upload_package(self,filename):
@@ -236,7 +239,7 @@ class ManoRift():
         curl_cmd.setopt(pycurl.WRITEFUNCTION, data.write)
         curl_cmd.perform() 
         curl_cmd.close()
-        resp = json.loads(data.getvalue())
+        resp = json.loads(data.getvalue().decode())
         pprint.pprint(resp)
       
     def add_vim_account(self,name,user_name,secret,auth_url,tenant,mgmt_network,float_ip_pool,account_type='openstack'):
@@ -261,7 +264,7 @@ class ManoRift():
         curl_cmd.setopt(pycurl.POSTFIELDS,jsondata)
         curl_cmd.perform() 
         curl_cmd.close()
-        resp = json.loads(data.getvalue())
+        resp = json.loads(data.getvalue().decode())
         pprint.pprint(resp)
 
     def list_vim_accounts(self):
@@ -271,7 +274,7 @@ class ManoRift():
         curl_cmd.setopt(pycurl.WRITEFUNCTION, data.write)
         curl_cmd.perform() 
         curl_cmd.close()
-        resp = json.loads(data.getvalue())
+        resp = json.loads(data.getvalue().decode())
         if 'rw-cloud:account' in resp:
             return resp['rw-cloud:account']
         return list()
