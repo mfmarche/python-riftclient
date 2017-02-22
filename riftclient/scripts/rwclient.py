@@ -33,7 +33,7 @@ def vnfd_list(ctx):
 @click.pass_context
 def vnf_list(ctx):
     resp=ctx.obj.list_vnfr()
-    table=PrettyTable(['VNFD Name','Id','Operational Status','Config Status','Mgmt interface','NSR Id'])
+    table=PrettyTable(['vnf name','id','operational status','config Status','mgmt interface','nsr id'])
     if resp is not None:
         for vnfr in resp['vnfr:vnfr']:
             table.add_row([vnfr['name'],vnfr['id'],vnfr['operational-status'],vnfr['config-status'],vnfr['mgmt-interface']['ip-address'],vnfr['nsr-id-ref']])
@@ -45,7 +45,7 @@ def vnf_list(ctx):
 @click.pass_context
 def vnf_monitoring_show(ctx,vnf_name):
     resp=ctx.obj.get_vnf_monitoring(vnf_name)
-    table=PrettyTable(['Vnf Name','Monitoring Name','value','units'])
+    table=PrettyTable(['vnf name','monitoring name','value','units'])
     if resp is not None:
         for monitor in resp:
             table.add_row([vnf_name,monitor['name'],monitor['value-integer'],monitor['units']])
@@ -57,7 +57,7 @@ def vnf_monitoring_show(ctx,vnf_name):
 @click.pass_context
 def ns_monitoring_show(ctx,ns_name):
     resp=ctx.obj.get_ns_monitoring(ns_name)
-    table=PrettyTable(['Vnf Name','Monitoring Name','value','units'])
+    table=PrettyTable(['vnf name','monitoring name','value','units'])
     if resp is not None:
         for key,val in resp.items():
             for monitor in val:
@@ -86,7 +86,7 @@ def ns_delete(ctx,ns_name):
 @click.pass_context
 def keypair_list(ctx):
     resp=ctx.obj.list_key_pair()
-    table=PrettyTable(['Key Name','Key'])
+    table=PrettyTable(['key Name','key'])
     for kp in resp:
         table.add_row([kp['name'],kp['key']])
     table.align='l'
@@ -133,7 +133,7 @@ def vim_create(ctx,name,user,password,auth_url,tenant,mgmt_network,floating_ip_p
 @click.pass_context
 def vim_list(ctx):
     resp=ctx.obj.list_vim_accounts()
-    table=PrettyTable(['Vim Name','User','Mgmt Network','Floating IP Pool','Connection Status'])
+    table=PrettyTable(['vim name','user','mgmt Network','floating ip pool','connection status'])
     for account in resp:
         table.add_row([account['name'],account[account['account-type']]['key'],account[account['account-type']]['mgmt-network'],account[account['account-type']]['floating-ip-pool'], account['connection-status']])
     table.align='l'

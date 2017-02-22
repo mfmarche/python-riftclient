@@ -130,7 +130,7 @@ class ManoRift():
 
     def list_ns_catalog(self):
         resp = self.get_ns_catalog()
-        table=PrettyTable(['NSD Name','Id'])
+        table=PrettyTable(['nsd name','id'])
         for ns in resp['nsd:nsd']:
             table.add_row([ns['name'],ns['id']])
         table.align='l'
@@ -138,7 +138,7 @@ class ManoRift():
 
     def list_ns_instance(self):
         resp = self.get_ns_instance_list()
-        table=PrettyTable(['NS Instance Name','Id','Catalog Name','Operational Status','Config Status'])
+        table=PrettyTable(['ns instance name','id','catalog name','operational status','config status'])
         if 'nsr' in resp:
             for ns in resp['nsr']:
                 nsopdata=self.get_ns_opdata(ns['id'])
@@ -278,7 +278,7 @@ class ManoRift():
 
     def show_ns(self,ns_name):
         resp = self.get_ns_instance_list()
-        table=PrettyTable(['Attribute','Value'])
+        table=PrettyTable(['attribute','value'])
 
         if 'nsr' in resp:
             for ns in resp['nsr']:
@@ -297,7 +297,7 @@ class ManoRift():
     def show_ns_scaling(self,ns_name):
         resp = self.get_ns_instance_list()
 
-        table=PrettyTable(['instance-id','Operational Status','create-time','Vnfr Ids'])
+        table=PrettyTable(['instance-id','operational status','create-time','vnfr ids'])
 
         if 'nsr' in resp:
             for ns in resp['nsr']:
@@ -318,7 +318,7 @@ class ManoRift():
 
     def list_vnf_catalog(self):
         resp = self.get_vnf_catalog()
-        table=PrettyTable(['VNFD Name','Id'])
+        table=PrettyTable(['vnfd name','id'])
         for ns in resp['vnfd:vnfd']:
             table.add_row([ns['name'],ns['id']])
         table.align='l'
