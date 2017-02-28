@@ -186,12 +186,13 @@ class ManoRift():
         nsr['admin-status']=admin_status
         nsr['cloud-account']=account
 
-        # ssh_keys is comma separate list
-        ssh_keys_format=[]
-        for key in ssh_keys.split(','):
-            ssh_keys_format.append({'key-pair-ref':key})
+        if ssh_keys is not None:
+            # ssh_keys is comma separate list
+            ssh_keys_format=[]
+            for key in ssh_keys.split(','):
+                ssh_keys_format.append({'key-pair-ref':key})
 
-        nsr['ssh-authorized-key']=ssh_keys_format
+            nsr['ssh-authorized-key']=ssh_keys_format
 
         if vim_network_prefix is not None:
             for index,vld in enumerate(nsr['nsd']['vld']):
